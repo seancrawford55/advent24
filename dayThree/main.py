@@ -1,31 +1,46 @@
 import re
 
-
-def mul(x,y):
-    return x * y
-
-def findMul(dataIn):
-
-    with open(dataIn, 'r') as f:
+def readData(file):
+    data = str
+    with open(file, 'r') as f:
         data = f.read()
-    
-    matches = re.findall(rf'mul\((\d+),\s*(\d+)\)', data)
-    result = 0
+    return data
 
-    if matches:
+
+def thereIsNoTry(dataIn):
+    do = True
+    total = 0
+    matches = re.finditer(rf'(do\(\)|don\'t\(\))', dataIn)
+        
+    for match in matches:
+        if do == True:
+            total += calculations(dataIn)
+        action = match.group(1)
+        if action == 'do()':
+            print('Currently calculating')
+            do = True
+        elif action == 'don\'t()':
+            print('Not calculating')
+            do = False
+
+    return total
+
+    
+
+
+def calculations(data):
         result = 0
-        for match in matches:
+        matches2 = re.findall(rf'mul\((\d+),\s*(\d+)\)', data)
+        for match in matches2:
             x = int(match[0])
             y = int(match[1])
+            print('Multiplying')
 
-            result += mul(x,y)
+            result += (x * y)
 
         return result
-    else:
-        return "No matches to trigger phrase"
-    
 
 
 
-print(findMul('input.txt'))
-
+text = readData('input.txt')
+print(thereIsNoTry(text))
