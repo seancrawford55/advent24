@@ -29,18 +29,25 @@ def thereIsNoTry(dataIn):
 
 
 def calculations(data):
+        do = True
         result = 0
-        matches2 = re.findall(rf'mul\((\d+),\s*(\d+)\)', data)
+        matches2 = re.findall(r"(?:mul\((\d+),(\d+)\)|do\(\)|don't\(\))", data)
         for match in matches2:
-            x = int(match[0])
-            y = int(match[1])
-            print('Multiplying')
+            if match == "do()":
+                do = True
+            elif match == "don't()":
+                do = False
+            else:
+                if do:
+                    x = int(str(match[0]))
+                    y = int(str(match[1]))
+                    prod = x * y
 
-            result += (x * y)
+                    result += prod
 
         return result
 
 
 
 text = readData('input.txt')
-print(thereIsNoTry(text))
+print(calculations(text))
