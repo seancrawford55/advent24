@@ -5,7 +5,7 @@ def readData(file):
 
 nums = []
 def getNum(data):
-    for l in data:
+    for l in data  :
         a = l[0]
         b = l[1]
         nums.append(a,b)
